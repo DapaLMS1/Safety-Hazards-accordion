@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Hazards Accordion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0; /* Keeping a light background for the page */
+        }
+
+        .accordion-container {
+            width: 630px; /* This is the 630px width you requested */
+            max-width: 90%; /* Ensures it's still responsive on smaller screens */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Ensures rounded corners look good */
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid #eee; /* Light separator between items */
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none; /* No border on the last item */
+        }
+
+        .accordion-header {
+            background-color: #7ABF49; /* Green brand color for header */
+            color: white; /* White text for contrast on green */
+            padding: 18px 25px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box; /* Include padding in width */
+            font-weight: bold;
+        }
+
+        .accordion-header:hover {
+            background-color: #96BF78; /* Lighter green on hover */
+        }
+
+        .accordion-header.active {
+            background-color: #532A8C; /* Dark purple when active/open */
+            color: white;
+        }
+
+        .accordion-header .icon {
+            font-size: 1.5em; /* Size of the + / - icon */
+            transition: transform 0.3s ease;
+            margin-left: 20px; /* Space between text and icon */
+        }
+
+        .accordion-header.active .icon {
+            transform: rotate(45deg); /* Rotates + to X or a dash */
+        }
+
+        .accordion-content {
+            background-color: #F2F2F2; /* Very light grey for content background */
+            max-height: 0; /* Initially hidden */
+            overflow: hidden;
+            transition: max-height 0.4s ease-out; /* Smooth slide effect */
+            padding: 0 25px; /* Horizontal padding, vertical will be added when open */
+        }
+
+        .accordion-content p,
+        .accordion-content ul {
+            padding-bottom: 15px; /* Spacing within content */
+            padding-top: 15px;
+            margin: 0;
+            line-height: 1.6;
+            color: #333; /* Dark grey for general text */
+        }
+
+        .accordion-content h4 {
+            color: #532A8C; /* Dark purple for subheadings within content */
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        .accordion-content ul {
+            list-style-type: disc; /* Bullet points for lists */
+            padding-left: 40px; /* Indent list items */
+        }
+
+        .accordion-content ul li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="accordion-container">
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                Environmental Factors
+                <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+                <ul>
+                    <li>Noise levels from compressors and suction units.</li>
+                    <li>Adequate lighting in treatment rooms and labs.</li>
+                    <li>Temperature and ventilation in all areas.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                Equipment Safety
+                <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+                <ul>
+                    <li>Proper operation, adjustment, and maintenance of all dental equipment, including X-ray machines, sterilizers, and handpieces.</li>
+                    <li>Regular checks of safety-related parts.</li>
+                    <li>Use of inspection checklists to ensure thoroughness.</li>
+                    <li>Maintain records of inspections.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                Chemical Storage
+                <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+                <ul>
+                    <li>Safe storage of disinfectants, anesthetics, and other chemicals, minimizing the risk of leaks or spills.</li>
+                    <li>Verification of up-to-date Safety Data Sheets (SDS).</li>
+                    <li>Immediate action to rectify any chemical hazard.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                Working Practices
+                <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+                <ul>
+                    <li>Observation of staff during procedures to identify any unsafe practices.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    // Toggle the 'active' class on the clicked header
+                    header.classList.toggle('active');
+
+                    // Get the next sibling, which is the content panel
+                    const content = header.nextElementSibling;
+
+                    if (content.style.maxHeight) {
+                        // If it has a maxHeight (meaning it's open), close it
+                        content.style.maxHeight = null; // Reset to collapse
+                    } else {
+                        // Before opening, close all other open accordions
+                        accordionHeaders.forEach(otherHeader => {
+                            if (otherHeader !== header && otherHeader.classList.contains('active')) {
+                                otherHeader.classList.remove('active');
+                                otherHeader.nextElementSibling.style.maxHeight = null;
+                            }
+                        });
+
+                        // If it's closed, open it by setting maxHeight to its scrollHeight
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
